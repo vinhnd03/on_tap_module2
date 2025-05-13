@@ -16,29 +16,28 @@ public class View {
         VehicleController.displayMenu();
     }
     public static Drone inputDrone() {
-        String id = InputValidation.inputDroneId();
+        System.out.print("Nhập số hiệu: ");
+        String id = InputValidation.validateString("^DRN-\\d{3}$", "Số hiệu không hợp lệ");
         String brand = InputValidation.inputBrand();
 //        System.out.print("Nhập năm sản xuất: ");
 //        int year = Integer.parseInt(scanner.nextLine());
         int year = InputValidation.inputYear();
         System.out.print("Nhập người điều phối: ");
-        String coordinator = scanner.nextLine();
+        String coordinator = InputValidation.validateString("^([A-Z][a-z]*)\\s([A-Z][a-z]*\\s)*([A-Z][a-z]*)$", "Tên không hợp lệ");
         System.out.print("Nhập tầm bay tối đa: ");
-        Double flyRange = Double.parseDouble(scanner.nextLine());
+        Double flyRange = InputValidation.validateDouble(0, Double.MAX_VALUE, "Tầm bay không hợp lệ");
         return new Drone(id, brand, year,coordinator, flyRange);
     }
 
     public static Car inputCar() {
-        System.out.print("Nhập id: ");
-        String id = scanner.nextLine();
-        System.out.print("Nhập hãng: ");
-        String brand = scanner.nextLine();
-        System.out.print("Nhập năm sản xuất: ");
-        int year = Integer.parseInt(scanner.nextLine());
+        System.out.print("Nhập số hiệu: ");
+        String id = InputValidation.validateString("^XTT-\\d{3}$", "Số hiệu không hợp lệ");
+        String brand = InputValidation.inputBrand();
+        int year = InputValidation.inputYear();
         System.out.print("Nhập người điều phối: ");
-        String coordinator = scanner.nextLine();
-        System.out.print("Nhập khả năng chống bức xạ: ");
-        int resistance = Integer.parseInt(scanner.nextLine());
+        String coordinator = InputValidation.validateString("^([A-Z][a-z]*)\\s([A-Z][a-z]*\\s)*([A-Z][a-z]*)$", "Tên không hợp lệ");
+        System.out.print("Nhập khả năng chống bức xạ (1 -> 10): ");
+        int resistance = InputValidation.validateInteger(1, 10, "Dữ liệu không hợp lệ");
         return new Car(id, brand, year,coordinator, resistance);
     }
 
