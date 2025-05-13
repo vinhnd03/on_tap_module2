@@ -1,5 +1,6 @@
 package service.impl;
 
+import common.NotFoundVehicleException;
 import entity.Car;
 import entity.Drone;
 import entity.Vehicle;
@@ -23,7 +24,10 @@ public class VehicleService implements IVehicleService {
     }
 
     @Override
-    public Vehicle findById(String id) {
+    public Vehicle findById(String id) throws NotFoundVehicleException {
+        if(repository.findById(id) == null){
+            throw new NotFoundVehicleException("Phương tiện không tồn tại");
+        }
         return repository.findById(id);
     }
 

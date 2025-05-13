@@ -1,5 +1,6 @@
 package controller;
 
+import common.NotFoundVehicleException;
 import entity.Brand;
 import entity.Car;
 import entity.Drone;
@@ -70,17 +71,19 @@ public class VehicleController {
 
     private static void delete() {
         String id = View.inputId();
-        Vehicle vehicle = vehicleService.findById(id);
-        if(vehicle == null){
-            System.out.println("Không tồn tại");
-            return;
+        try {
+            Vehicle vehicle = vehicleService.findById(id);
+            boolean confirm = View.confirmDelete();
+            if(confirm){
+                vehicleService.deleteById(id);
+                System.out.println("Xóa thành công");
+            }
+        }catch (NotFoundVehicleException e){
+            System.out.println(e.getMessage());
         }
-        boolean confirm = View.confirmDelete();
-        if(confirm){
-            vehicleService.deleteById(id);
-            System.out.println("Xóa thành công");
-        }
+
     }
+
 
     private static void search() {
         boolean flag = true;
@@ -95,12 +98,12 @@ public class VehicleController {
             switch (choice){
                 case 1:
                     String id = View.inputId();
-                    Vehicle vehicle = vehicleService.findById(id);
-                    if(vehicle == null){
-                        System.out.println("Không tìm thấy");
-                        return;
+                    try {
+                        Vehicle vehicle = vehicleService.findById(id);
+                        View.displayVehicleInfo(vehicle);
+                    } catch (NotFoundVehicleException e) {
+                        System.out.println(e.getMessage());
                     }
-                    View.displayVehicleInfo(vehicle);
                     break;
                 case 2:
                     String coordinator = View.inputCoordinator();
